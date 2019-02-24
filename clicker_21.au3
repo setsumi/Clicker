@@ -20,7 +20,7 @@ Opt('MustDeclareVars', 1)
 ; ============================================================================
 ;Initialize variables
 Global $AppName = "Clicker"
-Global $AppVersion = "2.2"
+Global $AppVersion = "2.3"
 Global $hGUI, $PosTarget[2] = [0, 0], $PosReturn[2] = [0, 0]
 Global $GUIWidth = 330, $GUIHeight = 135
 Global $LabelPos, $RadioTarget, $RadioReturn, $EditHelp
@@ -38,6 +38,7 @@ Else
    $Caption = " - " & $CmdLine[1]
 EndIf
 
+OnAutoItExitRegister("OnExit")
 
 ; ============================================================================
 _Main()
@@ -96,16 +97,6 @@ Func _Main()
    IniWrite($Ini, "ROOT", "PosReturnX", $PosReturn[0])
    IniWrite($Ini, "ROOT", "PosReturnY", $PosReturn[1])
 
-   ; crude way to detect if sound is muted
-   Local $volume_app_wnd = "[CLASS:Volume Control]"
-   run("sndvol32.exe", "", @SW_HIDE)
-   winwait($volume_app_wnd)
-   Local $mute_query= ControlCommand ($volume_app_wnd, "", "[TEXT:&Mute all]", "IsChecked")
-   If $mute_query=1 Then
-	  MuteToggle()
-   EndIf
-   WinClose($volume_app_wnd)
-
 EndFunc   ;==>_Main
 
 ; ============================================================================
@@ -158,3 +149,16 @@ EndFunc   ;==>ShowHide
 Func MuteToggle()
    Send("{VOLUME_MUTE}")
 EndFunc   ;==>MuteToggle
+
+; ============================================================================
+Func OnExit()
+   ; crude way to detect if sound is muted
+   Local $volume_app_wnd = "[CLASS:Volume Control]"
+   run("sndvol32.exe", "", @SW_HIDE)
+   winwait($volume_app_wnd)
+   Local $mute_query= ControlCommand ($volume_app_wnd, "", "[TEXT:&Mute all]", "IsChecked")
+   If $mute_query=1 Then
+	  MuteToggle()
+   EndIf
+   WinClose($volume_app_wnd)
+EndFunc   ;==>OnExit
