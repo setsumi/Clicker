@@ -31,7 +31,7 @@ Global $AppVersion = "2.4"
 Global $hGUI, $PosTarget[2] = [0, 0], $PosReturn[2] = [0, 0]
 Global $GUIWidth = 380, $GUIHeight = 135
 Global $LabelPos, $RadioTarget, $RadioReturn, $EditHelp
-Global $Icon = @ScriptDir & "\Clicker.ico"
+Global $Icon = @ScriptDir & "\clicker.ico"
 
 Global $Ini = @ScriptDir & "\clicker.ini"
 Global $Caption = ""
